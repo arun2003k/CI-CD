@@ -9,17 +9,15 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Run Python App') {
             steps {
-                sh 'echo Building...'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                sh 'echo Testing...'
+                sh '''
+                echo "Running app.py..."
+                python3 app.py
+                '''
             }
         }
     }
 }
+
 
