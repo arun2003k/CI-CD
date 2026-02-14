@@ -3,29 +3,43 @@ pipeline {
 
     stages {
 
-        stage('Build') {
+        stage('Checkout') {
             steps {
-                echo "Building branch: ${env.BRANCH_NAME}"
-                sh 'python3 --version'
+                checkout scm
             }
         }
 
-        stage('Test') {
+        stage('Show Branch') {
+            steps {
+                echo "Running on branch: ${env.BRANCH_NAME}"
+            }
+        }
+
+        stage('Echo app.py File') {
+            steps {
+                sh 'echo "Printing app.py content below:"'
+                sh 'cat app.py'
+            }
+        }
+
+        stage('Run App (Only Development)') {
             when {
                 branch 'development'
             }
             steps {
-                echo "Running tests on development branch"
+                sh 'python3 app.py &'
+                sh 'sleep 5'
             }
         }
 
-        stage('Deploy') {
+        stage('Deploy (Only Main)') {
             when {
                 branch 'main'
             }
             steps {
-                echo "Deploying to production"
+                echo "Deploying Production Build..."
             }
         }
     }
 }
+
